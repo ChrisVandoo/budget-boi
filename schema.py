@@ -75,8 +75,8 @@ class Categorizer:
             # TODO this will break if user enters invalid input
             choice = input(self._prompt)
             _category =  self._categories_by_index[int(choice) - 1]
-        
-        self._schema.update_transaction(transaction_description, _category)
+            self._schema.update_transaction(transaction_description, _category)
+               
         return _category
 
     def save(self):
