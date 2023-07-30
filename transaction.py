@@ -5,18 +5,18 @@ class Transaction:
     This class should represent the properites of a transaction record.
     """
 
-    def __init__(self, card_number, raw_date, amount, raw_description, schema):
+    def __init__(self, card_number, raw_date, amount, raw_description, categorizer):
+        # Schema should be an object with references to the user's schema, used to categorize, tag etc.
+        self._categorizer = categorizer
+
         self._card_number = card_number
         self._set_date(raw_date)
-        self._amount = amount
+        self._set_amount(amount)
         self._description = raw_description
         self._tags = []
-        self._category = ""
         self._is_categorized = False
-
-        # Schema should be an object with references to the user's schema, used to categorize, tag etc.
-        self._schema = schema
-    
+        self._category = self._categorize_transaction()
+           
     @property
     def card_number(self): return self._card_number
     
@@ -37,6 +37,12 @@ class Transaction:
 
     @property
     def is_categorized(self): return self._is_categorized
+
+    def _set_amount(self, amount):
+        """
+        Formats the ammount nicely.
+        """
+        self._amount = "${:.2f}".format(float(amount))
 
     def _set_date(self, date):
         """
@@ -72,6 +78,12 @@ class Transaction:
         Based off of the transaction description and perhaps also some schema
         this function should categorize the transaction.
         """
-
+        print(f"You spent {self.amount} at {self.description}")
+        category = self._categorizer.run(self.description)
+        
+        if category:
+            self._is_categorized = True
+        
+        return category
     
 

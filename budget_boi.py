@@ -2,6 +2,7 @@ import argparse
 import csv
 
 from transaction import Transaction
+from schema import Categorizer
 
 def budget():
     parser = argparse.ArgumentParser(
@@ -23,14 +24,18 @@ def budget():
 
     transactions = []
 
+    categorizer = Categorizer(args.schema)
+
     # open and parse CSV
     with open(args.filename, newline='') as file:
         reader = csv.reader(file)
         for i, row in enumerate(reader):
-            print(row)
+            # print(row)
             if i != 0:
-                transactions.append(Transaction(row[1], row[2], row[4], row[5], args.schema))
+                transactions.append(Transaction(row[1], row[2], row[4], row[5], categorizer))
 
+    categorizer.save()
+    
     print("Parsed all transactions!")
 
 if __name__ == "__main__":
