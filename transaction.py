@@ -7,7 +7,7 @@ class Transaction:
 
     def __init__(self, card_number, raw_date, amount, raw_description, schema):
         self._card_number = card_number
-        self.date = self._parse_raw_date(raw_date)
+        self._set_date(raw_date)
         self._amount = amount
         self._description = raw_description
         self._tags = []
@@ -38,7 +38,7 @@ class Transaction:
     @property
     def is_categorized(self): return self._is_categorized
 
-    def _parse_raw_date(self, date):
+    def _set_date(self, date):
         """
         Parses a string formatted YYYYMMDD into a datetime object.
 
@@ -53,7 +53,7 @@ class Transaction:
         month = int(date[4:6])
         day = int(date[6:8])
 
-        return datetime.date(year, month, day)
+        self._date = datetime.date(year, month, day)
     
     def _parse_raw_description(self, raw_description):
         """
