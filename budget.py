@@ -36,6 +36,9 @@ class Budget:
         """
         Print out results of budget.
         """
+        total = 0
+        budget_total = 0
+
         print("\n\n================== BUDGET ==================")
         if self._curr_timeframe:
             print(self._curr_timeframe)
@@ -43,5 +46,10 @@ class Budget:
         print("Category | Actual | Budgeted")
         print("--------------------------------------------")
         for category, amount in self._budget.items():
+            if category != 'Other':
+                total = float(total) + float(amount)
+                budget_total = float(budget_total) + float(self._categories[category].get('amount'))
             print("{}: ${:.2f} / ${:.2f}".format(category, amount, self._categories[category].get('amount')))
+        print("--------------------------------------------")
+        print("Total: ${:.2f} / ${:.2f}".format(total, budget_total))
         print("============================================\n\n")
