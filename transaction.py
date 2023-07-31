@@ -23,6 +23,12 @@ class Transaction:
     @property
     def date(self): return self._date 
 
+    @property
+    def month(self): return self._month
+
+    @property
+    def year(self): return self._year   
+
     @property 
     def amount(self): return self._amount
 
@@ -42,7 +48,7 @@ class Transaction:
         """
         Formats the ammount nicely.
         """
-        self._amount = "${:.2f}".format(float(amount))
+        self._amount = "{:.2f}".format(float(amount))
 
     def _set_date(self, date):
         """
@@ -60,6 +66,8 @@ class Transaction:
         day = int(date[6:8])
 
         self._date = datetime.date(year, month, day)
+        self._month = self._date.strftime("%B")
+        self._year = self._date.strftime("%Y")
     
     def _parse_raw_description(self, raw_description):
         """
@@ -78,7 +86,7 @@ class Transaction:
         Based off of the transaction description and perhaps also some schema
         this function should categorize the transaction.
         """
-        print(f"You spent {self.amount} at {self.description}")
+        print(f"You spent ${self.amount} at {self.description} on {self.date.strftime('%B %d, %Y')}")
         category = self._categorizer.run(self.description)
         
         if category:

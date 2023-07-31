@@ -31,11 +31,11 @@ class Schema:
         """
         Should update the specified part of the schema with new stuff.
         """
-        self._schema['schema'][transaction_desc] = {"Category": category}
+        self._schema['schema'][transaction_desc] = {"category": category}
     
     def get_categories(self):
         """
-        Returns the map of category:descriptions
+        Returns the map of category:{}
         """
         return self._schema.get('categories')
 
@@ -67,7 +67,10 @@ class Categorizer:
             return None
         
         # If this is not None, we've managed to automatically assign the category.
-        _category = self._schema.get_transaction(transaction_description)
+        _category = None
+        transaction_schema = self._schema.get_transaction(transaction_description)
+        if transaction_schema:
+            _category = transaction_schema['category']
 
         if not _category:
             print("What should this be categorized as?")
@@ -91,8 +94,8 @@ class Categorizer:
         index = 1
         categories = self._schema.get_categories()
 
-        for category, description in categories.items():
-            prompt += f"[{index}] {category}: {description} \n"
+        for category, stuff in categories.items():
+            prompt += f"[{index}] {category}: {stuff.get('description')} \n"
             self._categories_by_index.append(category)
             index+=1
 
