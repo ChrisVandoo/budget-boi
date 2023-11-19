@@ -1,5 +1,20 @@
 import datetime
 
+def parse_date(date: str) -> datetime.date:
+    """
+    Parses a string formatted YYYYMMDD into a datetime object.
+    """
+    if len(date) < 7:
+            print("ERROR: date is not long enough...")
+            return None
+
+    year = int(date[:4])
+    month = int(date[4:6])
+    day = int(date[6:8])
+
+    return datetime.date(year, month, day)
+
+
 class Transaction:
     """
     This class should represent the properites of a transaction record.
@@ -57,17 +72,12 @@ class Transaction:
         date: String
         @returns: Date object
         """
-        if len(date) < 7:
-            print("ERROR: date is not long enough...")
-            return None
 
-        year = int(date[:4])
-        month = int(date[4:6])
-        day = int(date[6:8])
+        self._date = parse_date(date)
 
-        self._date = datetime.date(year, month, day)
-        self._month = self._date.strftime("%B")
-        self._year = self._date.strftime("%Y")
+        if self._date:
+            self._month = self._date.strftime("%B")
+            self._year = self._date.strftime("%Y")
     
     def _parse_raw_description(self, raw_description):
         """
