@@ -12,6 +12,12 @@ def budget():
     )
 
     parser.add_argument(
+        '--csv',
+        action="store_true",
+        help="Output CSV file containing categorized transactions for a month."
+    )
+
+    parser.add_argument(
         'month',
         help="The month the budget results should be returned for."
     )
@@ -40,8 +46,12 @@ def budget():
     print("Parsed all transactions!")
 
     b = Budget(transactions, args.schema)
-    b.budget(args.month, args.year)
-    b.results()
+
+    if (args.csv):
+        b.print_csv(args.month, args.year)
+    else:
+        b.budget(args.month, args.year)
+        b.results()
 
 if __name__ == "__main__":
     budget()
