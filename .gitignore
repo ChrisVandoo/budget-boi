@@ -1,4 +1,7 @@
 local_data/
+schema/
+.DS_Store
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
