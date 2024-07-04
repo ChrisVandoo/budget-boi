@@ -4,8 +4,8 @@ def parse_date(date: str) -> datetime.date:
     """
     Parses a string formatted YYYYMMDD into a datetime object.
     """
-    if len(date) < 7:
-            print("ERROR: date is not long enough...")
+    if len(date) != 8:
+            print("ERROR: Date string is incorrect length...")
             return None
 
     year = int(date[:4])
@@ -23,14 +23,15 @@ class Transaction:
     def __init__(self, card_number, raw_date, amount, raw_description, categorizer):
         # Schema should be an object with references to the user's schema, used to categorize, tag etc.
         self._categorizer = categorizer
-
-        self._card_number = card_number
+        
         self._set_date(raw_date)
-        self._set_amount(amount)
-        self._description = raw_description
-        self._tags = []
-        self._is_categorized = False
-        self._category = self._categorize_transaction()
+        if self.date:
+            self._card_number = card_number
+            self._set_amount(amount)
+            self._description = raw_description
+            self._tags = []
+            self._is_categorized = False
+            self._category = self._categorize_transaction()
            
     @property
     def card_number(self): return self._card_number
